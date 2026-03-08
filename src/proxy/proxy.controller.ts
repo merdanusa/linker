@@ -1,4 +1,11 @@
-import { Controller, Post, Body, HttpCode, HttpStatus } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  HttpCode,
+  HttpStatus,
+  UseGuards,
+} from '@nestjs/common';
 import {
   ApiTags,
   ApiOperation,
@@ -6,6 +13,7 @@ import {
   ApiBadRequestResponse,
   ApiBearerAuth,
 } from '@nestjs/swagger';
+import { JwtAuthGuard } from '@/auth/guards/jwt-auth.guard';
 import { ProxyService } from './providers/proxy.service';
 import {
   LinkToConfigDto,
@@ -16,6 +24,7 @@ import type { XRayConfig } from '@/xray';
 
 @ApiTags('Proxy')
 @ApiBearerAuth('access-token')
+@UseGuards(JwtAuthGuard)
 @Controller('proxy')
 export class ProxyController {
   constructor(private readonly proxyService: ProxyService) {}
@@ -25,7 +34,7 @@ export class ProxyController {
   @ApiOperation({ summary: 'Convert a share link → full XRay JSON config' })
   @ApiOkResponse({ description: 'XRay config object' })
   @ApiBadRequestResponse({ description: 'Invalid or unsupported link format' })
-  linkToConfig(@Body() body: LinkToConfigDto): XRayConfig {
+  linkToConfig(@Body() body: LinkToConfigDto): object {
     return this.proxyService.linkToConfig(body.link);
   }
 
@@ -54,10 +63,7 @@ export class ProxyController {
       },
     },
   })
-  bulkImport(@Body() body: BulkImportDto): {
-    imported: XRayConfig[];
-    failed: { link: string; reason: string }[];
-  } {
+  bulkImport(@Body() body: BulkImportDto): object {
     return this.proxyService.bulkImport(body.links);
   }
 }
