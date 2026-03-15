@@ -1,6 +1,6 @@
-import { Protocol, XRayConfig, XRayConverter } from '@/xray';
+import { Protocol, XRayConfig, XRayConverter } from '../../xray';
 import { Injectable, BadRequestException } from '@nestjs/common';
-import { HistoryService } from '@/history/providers/history.service';
+import { HistoryService } from '../../history/providers/history.service';
 
 @Injectable()
 export class ProxyService {

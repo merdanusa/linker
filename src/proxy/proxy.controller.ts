@@ -14,14 +14,14 @@ import {
   ApiBadRequestResponse,
   ApiBearerAuth,
 } from '@nestjs/swagger';
-import { JwtAuthGuard } from '@/auth/guards/jwt-auth.guard';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { ProxyService } from './providers/proxy.service';
 import {
   LinkToConfigDto,
   ConfigToLinkDto,
   BulkImportDto,
 } from './dtos/proxy.dto';
-import type { XRayConfig } from '@/xray';
+import type { XRayConfig } from '../xray';
 
 @ApiTags('Proxy')
 @ApiBearerAuth('access-token')
