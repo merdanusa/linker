@@ -80,7 +80,12 @@ export class ProxyService {
         userId,
         action: 'bulk_import',
         input: { links },
-        output: { imported: imported.length, failed: failed.length },
+        output: {
+          imported: imported as unknown as Record<string, unknown>[],
+          failed: failed as unknown as Record<string, unknown>[],
+          importedCount: imported.length,
+          failedCount: failed.length,
+        },
         success: true,
       });
 
